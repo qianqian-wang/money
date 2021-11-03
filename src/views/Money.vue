@@ -1,6 +1,9 @@
 <template>
-  <div>
-    Money,ds
+  <div class="nav-wrapper">
+    <div class="content">
+      <p>Money,ds</p>
+    </div>
+
     <Nav />
   </div>
 </template>
@@ -10,4 +13,16 @@ import Vue from "vue";
 export default Vue.extend({});
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.nav-wrapper {
+  border: 1px solid green;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.content {
+  border: 1px solid blue;
+  overflow: auto;
+  flex-grow: 1;
+}
+</style>
