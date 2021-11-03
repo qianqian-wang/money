@@ -1,14 +1,9 @@
 <template>
   <div>
-    Labelskk
-    <Nav />
+    <Layout>Labelskk</Layout>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({});
+export default {};
 </script>
-
-<style lang="scss" scoped></style>
