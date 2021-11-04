@@ -27,4 +27,7 @@ module.exports = {
       },
     },
   ],
+  globals: {
+    __WebpackModuleApi: "writable",
+  },
 };
