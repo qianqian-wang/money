@@ -5,22 +5,21 @@
   </ul>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      type: "-", //-号表示支出 +号表示收入
-    };
-  },
-  methods: {
-    selected(type) {
-      if (type !== "-" && type !== "+") {
-        throw new Error("type is unknown");
-      }
-      this.type = type;
-    },
-  },
-};
+<script lang="ts">
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+
+@Component
+export default class Types extends Vue {
+  @Prop(Number) xxx: number | undefined;
+  type = "-"; //-号表示支出 +号表示收入
+  selected(type: string) {
+    if (type !== "-" && type !== "+") {
+      throw new Error("type is unknown");
+    }
+    this.type = type;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
