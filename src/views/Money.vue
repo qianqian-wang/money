@@ -4,7 +4,7 @@
     <types :value.sync="record.type" />
     <notes @update:value="onUpdateNotes" />
     <tags :dataSource.sync="tags" @update:value="onUpdateTags" />
-    {{ record }}
+    {{ recordList }}
   </Layout>
 </template>
 
@@ -17,18 +17,23 @@ import Tags from "@/components/Money/Tags.vue";
 import Component from "vue-class-component";
 import { Watch } from "vue-property-decorator";
 
+window.localStorage.setItem("version", "1.0");
+
 type Record = {
   type: string;
   notes: string;
   number: number;
   tag: string[];
+  createdAt?: Date; //类/构造函数
 };
 @Component({
   components: { NumberPad, Types, Notes, Tags },
 })
 export default class Money extends Vue {
   tags = ["衣", "食", "住", "行"];
-  recordList: Record[] = [];
+  recordList: Record[] = JSON.parse(
+    window.localStorage.getItem("recordList") || "[]"
+  );
   record: Record = {
     type: "-",
     notes: "",
@@ -44,7 +49,8 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const record2 = JSON.parse(JSON.stringify(this.record));
+    const record2: Record = JSON.parse(JSON.stringify(this.record));
+    record2.createdAt = new Date();
     this.recordList.push(record2);
     console.log(this.recordList);
   }
