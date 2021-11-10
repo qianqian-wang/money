@@ -16,9 +16,9 @@ import Notes from "@/components/Money/Notes.vue";
 import Tags from "@/components/Money/Tags.vue";
 import Component from "vue-class-component";
 import { Watch } from "vue-property-decorator";
+const model = require("@/model.js").defalut;
 
-window.localStorage.setItem("version", "1.0");
-
+const recordList: Record[] = model.fetch();
 type Record = {
   type: string;
   notes: string;
@@ -31,9 +31,7 @@ type Record = {
 })
 export default class Money extends Vue {
   tags = ["衣", "食", "住", "行"];
-  recordList: Record[] = JSON.parse(
-    window.localStorage.getItem("recordList") || "[]"
-  );
+  recordList: Record[] = recordList;
   record: Record = {
     type: "-",
     notes: "",
@@ -56,7 +54,8 @@ export default class Money extends Vue {
   }
   @Watch("recordList")
   onRecordListChange() {
-    localStorage.setItem("recordList", JSON.stringify(this.recordList));
+    model.save(this.recordList);
+    // window.localStorage.setItem("recordList", JSON.stringify(this.recordList));
   }
 }
 </script>
