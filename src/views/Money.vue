@@ -14,25 +14,18 @@ import NumberPad from "@/components/Money/NumberPad.vue";
 import Types from "@/components/Money/Types.vue";
 import Notes from "@/components/Money/Notes.vue";
 import Tags from "@/components/Money/Tags.vue";
-import Component from "vue-class-component";
-import { Watch } from "vue-property-decorator";
-const model = require("@/model.js").defalut;
+import { Component, Watch } from "vue-property-decorator";
+import model from "@/model";
 
-const recordList: Record[] = model.fetch();
-type Record = {
-  type: string;
-  notes: string;
-  number: number;
-  tag: string[];
-  createdAt?: Date; //类/构造函数
-};
+const recordList = model.fetch();
+
 @Component({
   components: { NumberPad, Types, Notes, Tags },
 })
 export default class Money extends Vue {
   tags = ["衣", "食", "住", "行"];
-  recordList: Record[] = recordList;
-  record: Record = {
+  recordList: RecordItem[] = recordList;
+  record: RecordItem = {
     type: "-",
     notes: "",
     number: 0,
@@ -47,15 +40,13 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const record2: Record = JSON.parse(JSON.stringify(this.record));
+    const record2: RecordItem = model.clone(this.record);
     record2.createdAt = new Date();
     this.recordList.push(record2);
-    console.log(this.recordList);
   }
   @Watch("recordList")
   onRecordListChange() {
     model.save(this.recordList);
-    // window.localStorage.setItem("recordList", JSON.stringify(this.recordList));
   }
 }
 </script>
@@ -66,4 +57,3 @@ export default class Money extends Vue {
   flex-direction: column-reverse;
 }
 </style>
-<style lang="scss" scoped></style>
