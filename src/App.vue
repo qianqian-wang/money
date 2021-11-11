@@ -12,5 +12,6 @@ body {
   font-size: 16px;
   line-height: 1.5;
   color: #333;
+  background: #e5e5e5;
 }
 </style>
