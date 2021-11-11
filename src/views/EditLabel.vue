@@ -4,7 +4,7 @@
       <icon name="left" />
       <span class="sub"> 编辑标签 </span>
     </div>
-    <notes
+    <FormItem
       @update:value="onUpdateNotes"
       fieldName="标签名"
       placeholder="请输入标签名"
@@ -14,10 +14,10 @@
 
 <script lang="ts">
 import tagListModel from "@/models/tagListModel";
-import Notes from "@/components/Money/Notes.vue";
+import FormItem from "@/components/Money/FormItem.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-@Component({ components: { Notes } })
+@Component({ components: { FormItem } })
 export default class Test extends Vue {
   created() {
     const id = this.$route.params.id;
