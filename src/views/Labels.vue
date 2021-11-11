@@ -1,8 +1,8 @@
 <template>
   <Layout>
     <ul class="label">
-      <li v-for="tag in tags" :key="tag">
-        <span>{{ tag }}</span>
+      <li v-for="tag in tags" :key="tag.id">
+        <span>{{ tag.name }}</span>
         <icon name="right" />
       </li>
     </ul>
