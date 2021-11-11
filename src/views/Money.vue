@@ -19,7 +19,6 @@ import tagListModel from "@/models/tagListModel";
 
 const recordList = recordListModel.fetch();
 tagListModel.fetch();
-console.log(tagListModel.data);
 
 @Component({
   components: { NumberPad, Types, Notes, Tags },
