@@ -5,7 +5,7 @@
     <FormItem
       @update:value="onUpdateNotes"
       fieldName="备注"
-      placeholder="请输入备注信息"
+      :placeholder="placeholder"
     />
     <tags :dataSource.sync="tags" @update:value="onUpdateTags" />
   </Layout>
@@ -29,6 +29,7 @@ tagListModel.fetch();
 })
 export default class Money extends Vue {
   tags = tagListModel.data;
+  placeholder = "请输入备注信息";
   recordList: RecordItem[] = recordList;
   record: RecordItem = {
     type: "-",
@@ -48,6 +49,9 @@ export default class Money extends Vue {
     const record2: RecordItem = recordListModel.clone(this.record);
     record2.createdAt = new Date();
     this.recordList.push(record2);
+    this.placeholder = "请输入备注信息";
+
+    console.log(this.placeholder);
   }
   @Watch("recordList")
   onRecordListChange() {
