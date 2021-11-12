@@ -1,14 +1,15 @@
 <template>
   <layout>
-    <div class="subject">
+    <div class="navBar">
       <icon name="left" />
-      <span class="sub"> 编辑标签 </span>
+      <span class="title"> 编辑标签 </span>
     </div>
-    <FormItem
-      @update:value="onUpdateNotes"
-      fieldName="标签名"
-      placeholder="请输入标签名"
-    />
+    <div class="form-wrapper">
+      <FormItem fieldName="标签名" placeholder="请输入标签名" />
+    </div>
+    <div class="button-wrapper">
+      <buttons>删除标签</buttons>
+    </div>
   </layout>
 </template>
 
@@ -17,7 +18,8 @@ import tagListModel from "@/models/tagListModel";
 import FormItem from "@/components/Money/FormItem.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-@Component({ components: { FormItem } })
+import Buttons from "../components/Buttons.vue";
+@Component({ components: { FormItem, Buttons } })
 export default class Test extends Vue {
   created() {
     const id = this.$route.params.id;
@@ -34,14 +36,24 @@ export default class Test extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.subject {
+.navBar {
   background: white;
   padding: 15px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .svg {
-    margin-left: -20px;
+  font-size: 16px;
+  text-align: center;
+  position: relative;
+  .icon {
+    position: absolute;
+    top: 20px;
+    left: 5%;
   }
+}
+.form-wrapper {
+  background: white;
+  margin-top: 8px;
+}
+.button-wrapper {
+  text-align: center;
+  margin-top: 44-16px;
 }
 </style>
