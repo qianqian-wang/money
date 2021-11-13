@@ -19,8 +19,7 @@ const tagListModel: TagListModel = {
         this.data = JSON.parse(window.localStorage.getItem("tagList") || "[]");
         return this.data
     },
-    create(name: string) {
-       
+    create(name: string) { 
         const names = this.data.map(item => item.name)
         if (names.indexOf(name) >= 0) { return 'duplicated' }
         else {
@@ -29,7 +28,6 @@ const tagListModel: TagListModel = {
             this.save();
             return 'success'
         }
-
     },
     update(id,name){
         const idList=this.data.map(item=>item.id)
