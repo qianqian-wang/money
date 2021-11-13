@@ -2,9 +2,12 @@
   <Layout classPrefix="layout">
     <number-pad :value.sync="record.number" @submit="saveRecord" />
     <types :value.sync="record.type" />
-    <notes @update:value="onUpdateNotes" />
+    <FormItem
+      @update:value="onUpdateNotes"
+      fieldName="备注"
+      :placeholder="placeholder"
+    />
     <tags :dataSource.sync="tags" @update:value="onUpdateTags" />
-    {{ recordList }}
   </Layout>
 </template>
 
@@ -12,27 +15,23 @@
 import Vue from "vue";
 import NumberPad from "@/components/Money/NumberPad.vue";
 import Types from "@/components/Money/Types.vue";
-import Notes from "@/components/Money/Notes.vue";
+import FormItem from "@/components/Money/FormItem.vue";
 import Tags from "@/components/Money/Tags.vue";
-import Component from "vue-class-component";
-import { Watch } from "vue-property-decorator";
-const model = require("@/model.js").defalut;
+import { Component, Watch } from "vue-property-decorator";
+import recordListModel from "@/models/recordListModel";
+import tagListModel from "@/models/tagListModel";
 
-const recordList: Record[] = model.fetch();
-type Record = {
-  type: string;
-  notes: string;
-  number: number;
-  tag: string[];
-  createdAt?: Date; //类/构造函数
-};
+const recordList = recordListModel.fetch();
+tagListModel.fetch();
+
 @Component({
-  components: { NumberPad, Types, Notes, Tags },
+  components: { NumberPad, Types, FormItem, Tags },
 })
 export default class Money extends Vue {
-  tags = ["衣", "食", "住", "行"];
-  recordList: Record[] = recordList;
-  record: Record = {
+  tags = tagListModel.data;
+  placeholder = "请输入备注信息";
+  recordList: RecordItem[] = recordList;
+  record: RecordItem = {
     type: "-",
     notes: "",
     number: 0,
@@ -47,15 +46,16 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const record2: Record = JSON.parse(JSON.stringify(this.record));
+    const record2: RecordItem = recordListModel.clone(this.record);
     record2.createdAt = new Date();
     this.recordList.push(record2);
-    console.log(this.recordList);
+    this.placeholder = "请输入备注信息";
+
+    console.log(this.placeholder);
   }
   @Watch("recordList")
   onRecordListChange() {
-    model.save(this.recordList);
-    // window.localStorage.setItem("recordList", JSON.stringify(this.recordList));
+    recordListModel.save(this.recordList);
   }
 }
 </script>
@@ -66,4 +66,3 @@ export default class Money extends Vue {
   flex-direction: column-reverse;
 }
 </style>
-<style lang="scss" scoped></style>

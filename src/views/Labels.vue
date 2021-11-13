@@ -1,69 +1,68 @@
 <template>
-    <Layout>
-      <ol class='tags'>
-        <li>
-          <span>衣</span> 
-          <icon name='right'/>
-        </li>
-        <li>
-          <span>食</span> 
-          <icon name='right'/>
-        </li>
-        <li>
-          <span>住</span> 
-          <icon name='right'/>
-          </li>
-        <li>
-          <span>行</span> 
-          <icon name='right'/>
-          </li>
-      </ol>
-      <div class="createTag-wrapper"> 
- <button class="createTag">新建标签</button>
-      </div>
-     
-    </Layout>
+  <Layout>
+    <div class="label">
+      <router-link
+        class="tags"
+        :to="`/labels/edit/${tag.id}`"
+        v-for="tag in tags"
+        :key="tag.id"
+      >
+        <span>{{ tag.name }}</span>
+        <icon name="right" />
+      </router-link>
+    </div>
+    <div class="createTag-wrapper">
+      <buttons class="createTag" @click.native="createTag">新建标签</buttons>
+    </div>
+  </Layout>
 </template>
 
 <script lang="ts">
-import Icon from '@/components/Icon.vue'
-import Vue from 'vue'
-export default Vue.extend({
-  components: { Icon },
-  
+import Vue from "vue";
+import Buttons from "@/components/Buttons.vue";
+import { Component } from "vue-property-decorator";
+import tagListModel from "@/models/tagListModel";
+tagListModel.fetch();
+@Component({
+  components: { Buttons },
 })
-</script>
+export default class Labels extends Vue {
+  tags = tagListModel.data;
 
-<style lang="scss" scoped>
-.tags{
-  background: white;
-  font-size: 16px;
-  padding-left: 16px;
-  >li{
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #e6e6e6;
-    svg{
-      width: 18px;
-      height: 18px;
-      color:#666;
-      margin-right:16px;
+  createTag() {
+    const name = window.prompt("请输入标签名");
+    if (name) {
+      const message = tagListModel.create(name);
+      if (message === "duplicated") {
+        window.alert("该标签已存在");
+      } else if (message === "success") {
+        window.alert("添加成功");
+      }
     }
   }
 }
-.createTag{
-  background: #767676;
-  color: white;
-  border-radius: 4px;
-  border: none;
-  height: 40px;
-  padding: 0 16px;
-  &-wrapper{
-    text-align: center;
-    padding: 16px;
-    margin-top: 44-16px;
+</script>
+
+<style lang="scss" scoped>
+.label {
+  background: white;
+  font-size: 16px;
+
+  > .tags {
+    border-bottom: 1px solid #bcbbc1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px 10px 15px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
+}
+.createTag-wrapper {
+  text-align: center;
+  margin-top: 44-16px;
 }
 </style>

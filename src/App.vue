@@ -8,10 +8,10 @@
 @import "~@/assets/style/reset.scss";
 @import "~@/assets/style/helper.scss";
 body {
-  font-family: $font-hei;
+  // font-family: $font-hei;
   font-size: 16px;
   line-height: 1.5;
   color: #333;
-  background: #f5f5f5;
+  background: #e5e5e5;
 }
 </style>

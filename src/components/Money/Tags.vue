@@ -6,11 +6,11 @@
     <ul class="current">
       <li
         v-for="tag in dataSource"
-        :key="tag"
+        :key="tag.id"
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
         @click="toggle(tag)"
       >
-        {{ tag }}
+        {{ tag.name }}
       </li>
     </ul>
   </div>
@@ -37,7 +37,6 @@ export default class Tags extends Vue {
 
   create() {
     const name = window.prompt("请输入标签名");
-    console.log(name);
     if (name === "") {
       window.alert("标签名不能为空");
     } else if (name === null) {
@@ -53,6 +52,7 @@ export default class Tags extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 .tags {
+  background: white;
   flex-grow: 1;
   display: flex;
   flex-direction: column-reverse;
