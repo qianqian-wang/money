@@ -50,8 +50,6 @@ export default class Money extends Vue {
     record2.createdAt = new Date();
     this.recordList.push(record2);
     this.placeholder = "请输入备注信息";
-
-    console.log(this.placeholder);
   }
   @Watch("recordList")
   onRecordListChange() {

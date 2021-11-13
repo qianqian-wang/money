@@ -38,11 +38,16 @@ export default class Test extends Vue {
     if(this.tag)tagListModel.update(this.tag.id,name);
   }
   removes(){
-    console.log('shanchu???????')
-     if(this.tag)tagListModel.remove(this.tag.id);
+     if(this.tag){
+      if(tagListModel.remove(this.tag.id)){
+        this.$router.back()
+      }else{
+        window.alert("删除失败")
+      }
+     }
+     
   }
   goBack(){
-     console.log('shanchu???????')
     this.$router.back()
   }
 }
