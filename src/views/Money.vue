@@ -22,13 +22,13 @@ import recordListModel from "@/models/recordListModel";
 import tagListModel from "@/models/tagListModel";
 
 const recordList = recordListModel.fetch();
-tagListModel.fetch();
+
 
 @Component({
   components: { NumberPad, Types, FormItem, Tags },
 })
 export default class Money extends Vue {
-  tags = tagListModel.data;
+  tags = window.tagList;
   placeholder = "请输入备注信息";
   recordList: RecordItem[] = recordList;
   record: RecordItem = {
@@ -37,7 +37,6 @@ export default class Money extends Vue {
     number: 0,
     tag: [],
   };
-
   onUpdateTags(value: string[]) {
     this.record.tag = value;
   }
