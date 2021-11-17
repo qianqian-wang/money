@@ -1,11 +1,16 @@
 <template>
   <layout>
     <div class="navBar">
-      <icon name="left" @click.native="goBack"/>
+      <icon name="left" @click.native="goBack" />
       <span class="title"> 编辑标签 </span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name" @update:value="update" fieldName="标签名" placeholder="请输入标签名" />
+      <FormItem
+        :value="tag.name"
+        @update:value="update"
+        fieldName="标签名"
+        placeholder="请输入标签名"
+      />
     </div>
     <div class="button-wrapper">
       <Button @click="removes">删除标签</Button>
@@ -14,41 +19,34 @@
 </template>
 
 <script lang="ts">
-import tagListModel from "@/models/tagListModel";
 import FormItem from "@/components/Money/FormItem.vue";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import Button from "../components/Buttons.vue";
 @Component({ components: { FormItem, Button } })
 export default class Test extends Vue {
-  tag?:{id:string,name:string}=undefined;
+  tag?: { id: string; name: string } = undefined;
 
   created() {
-    const id = this.$route.params.id;
-    tagListModel.fetch();
-    const tags = tagListModel.data;
-    const tag = tags.filter((t) => t.id === id)[0];
-    if (tag) {
-      this.tag=tag
-    } else {
+    this.tag = window.findTag(this.$route.params.id);
+    if (!this.tag) {
       this.$router.replace("/404");
     }
   }
-  update(name:string){
-    if(this.tag)tagListModel.update(this.tag.id,name);
+  update(name: string) {
+    if (this.tag) window.updateTag(this.tag.id, name);
   }
-  removes(){
-     if(this.tag){
-      if(tagListModel.remove(this.tag.id)){
-        this.$router.back()
-      }else{
-        window.alert("删除失败")
+  removes() {
+    if (this.tag) {
+      if (window.removeTag(this.tag.id)) {
+        this.$router.back();
+      } else {
+        window.alert("删除失败");
       }
-     }
-     
+    }
   }
-  goBack(){
-    this.$router.back()
+  goBack() {
+    this.$router.back();
   }
 }
 </script>

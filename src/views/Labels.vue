@@ -21,7 +21,6 @@
 import Vue from "vue";
 import Buttons from "@/components/Buttons.vue";
 import { Component } from "vue-property-decorator";
-import tagListModel from "@/models/tagListModel";
 
 @Component({
   components: { Buttons },
