@@ -44,9 +44,5 @@ const store = new Vuex.Store({
       window.localStorage.setItem("tagList", JSON.stringify(state.tagList));
     },
   },
-  actions: {
-  },
-  modules: {
-  }
 })
 export default store
