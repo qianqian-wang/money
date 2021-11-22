@@ -17,14 +17,20 @@
 </template>
 
 <script lang="ts">
-import store from "@/store/index2";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-@Component
+@Component({
+  computed: {
+    tagList() {
+      return this.$store.state.tagList;
+    },
+  },
+})
 export default class Tags extends Vue {
-  tagList = store.fetchTag();
   selectedTags: string[] = [];
-
+  created() {
+    this.$store.commit("fetchTag");
+  }
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag);
     if (index >= 0) {
@@ -38,7 +44,7 @@ export default class Tags extends Vue {
   create() {
     const name = window.prompt("请输入标签名");
     if (name) {
-      store.createTag(name);
+      this.$store.commit("createTag", name);
     }
   }
 }
