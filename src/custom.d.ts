@@ -2,7 +2,7 @@ type RecordItem = {
     type: string;
     notes: string;
     number: number;
-    tag: string[];
+    tag: Tag[];
     createdAt?: string; //类/构造函数
 }
 type Tag = {
