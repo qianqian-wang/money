@@ -11,16 +11,25 @@
         classPrefix="interval"
         :value.sync="interval"
       />
-      {{ type }}
-      <br />
-      {{ interval }}
+      <ol>
+        <li v-for="group in result" :key="group.title">
+          <h3 class="title">{{ group.title }}</h3>
+          <ol>
+            <li v-for="item in group.items" :key="item.id" class="record">
+              <span>{{ tagString(item.tag) }}</span>
+              <span class="notes">{{ item.notes }}</span>
+              <span> ￥{{ item.number }}</span>
+            </li>
+          </ol>
+        </li>
+      </ol>
     </Layout>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 import Tabs from "@/components/Tabs.vue";
 import intervalList from "@/constants/intervalList";
 import recordTypeList from "@/constants/recordTypeList";
@@ -33,6 +42,33 @@ export default class Statistics extends Vue {
   interval = "day";
   intervalList = intervalList;
   recordTypeList = recordTypeList;
+
+  get recordList() {
+    return (this.$store.state as RootState).recordList;
+  }
+  get result() {
+    const { recordList } = this;
+    const hashTable: {
+      [key: string]: { title: string; items: RecordItem[] };
+    } = {};
+
+    for (let i = 0; i < recordList.length; i++) {
+      const [date, time] = recordList[i].createdAt!.split("T");
+      hashTable[date] = hashTable[date] || { title: date, items: [] };
+      hashTable[date].items.push(recordList[i]);
+    }
+    return hashTable;
+  }
+  created() {
+    this.$store.commit("fetchRecord");
+  }
+  tagString(tags: Tag[]) {
+    const name = [];
+    for (let i = 0; i < tags.length; i++) {
+      name.push(tags[i].name);
+    }
+    return tags.length === 0 ? "无" : name.join(",");
+  }
 }
 </script>
 <style scoped lang="scss">
@@ -49,5 +85,24 @@ export default class Statistics extends Vue {
   .interval-tabs-item {
     height: 48px;
   }
+}
+%item {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  padding: 8px 16px;
+  line-height: 24px;
+}
+.record {
+  background: white;
+  @extend %item;
+}
+.title {
+  @extend %item;
+}
+.notes {
+  color: #999;
+  margin-right: auto;
+  margin-left: 16px;
 }
 </style>

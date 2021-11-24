@@ -3,7 +3,7 @@ type RecordItem = {
     notes: string;
     number: number;
     tag: string[];
-    createdAt?: Date; //类/构造函数
+    createdAt?: string; //类/构造函数
 }
 type Tag = {
     id: string;
@@ -17,4 +17,8 @@ type TagListModel = {
     save: () => void
     remove: (id: string) => boolean
 }
-
+type RootState = {
+    recordList: RecordItem[],
+    tagList: Tag[],
+    currentTag?: Tag
+}
