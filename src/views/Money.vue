@@ -7,11 +7,11 @@
       :value.sync="record.type"
     />
     <FormItem
-      @update:value="onUpdateNotes"
-      fieldName="请输入备注信息"
-      placeholder="备注"
+      :value.sync="record.notes"
+      placeholder="请输入备注信息"
+      fieldName="备注"
     />
-    <tags @update:value="onUpdateTags" />
+    <tags :selectedTags.sync="record.tag" />
   </Layout>
 </template>
 
@@ -41,14 +41,13 @@ export default class Money extends Vue {
   created() {
     this.$store.commit("fetchRecord");
   }
-  onUpdateNotes(value: string) {
-    this.record.notes = value;
-  }
-  onUpdateTags(value: []) {
-    this.record.tag = value;
-  }
+
   saveRecord() {
+    console.log(this.record.tag);
     this.$store.commit("createRecord", this.record);
+    this.record.tag = [];
+    console.log(this.record.tag);
+    this.record.notes = "";
   }
 }
 </script>

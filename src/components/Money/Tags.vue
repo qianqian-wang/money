@@ -9,6 +9,7 @@
         :key="tag.id"
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
         @click="toggle(tag)"
+        :value="selectedTags"
       >
         {{ tag.name }}
       </li>
@@ -19,11 +20,12 @@
 <script lang="ts">
 import { TagHelper } from "@/mixins/tagHelper";
 import { mixins } from "vue-class-component";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class Tags extends mixins(TagHelper) {
-  selectedTags: string[] = [];
+  @Prop() readonly selectedTags!: string[];
+  // selectedTags: string[] = [];
 
   get tagList() {
     return this.$store.state.tagList;
@@ -40,6 +42,7 @@ export default class Tags extends mixins(TagHelper) {
       this.selectedTags.push(tag);
     }
     this.$emit("update:value", this.selectedTags);
+    console.log(this.selectedTags);
   }
 }
 </script>

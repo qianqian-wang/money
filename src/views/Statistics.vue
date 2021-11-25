@@ -88,11 +88,7 @@ export default class Statistics extends Vue {
     this.$store.commit("fetchRecord");
   }
   tagString(tags: Tag[]) {
-    const name = [];
-    for (let i = 0; i < tags.length; i++) {
-      name.push(tags[i].name);
-    }
-    return tags.length === 0 ? "无" : name.join(",");
+    return tags.length === 0 ? "无" : tags.map((t) => t.name).join("，");
   }
   beautify(string: string) {
     const day = dayjs(string);
